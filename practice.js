@@ -131,7 +131,12 @@ var allUserMessages = function(tweets) {
 
 */
 var applyCoupon = function (groceries, coupon) {
-
+  return _.map(groceries, (item) => {
+    var priceNum = parseFloat(item.price.slice(1));
+    var saleNum = parseInt((priceNum * 100) * (1 - coupon)) / 100;
+    item.salePrice = '$' + saleNum.toString();
+    return item;
+  });
 };
 
 /*
@@ -142,13 +147,24 @@ var applyCoupon = function (groceries, coupon) {
 
 // return the total price of all products.
 var sumTotal = function (products) {
-
+  return _.reduce(products, function(sum, item) {
+    var itemPrice = parseFloat(item.price.slice(1));
+    return sum + itemPrice;
+  }, 0)
 };
 
 // return an object consisting of dessert types and how many of each.
 // exampleOutput: { dessertType: 3, dessertType2: 1 }
 var dessertCategories = function (desserts) {
-
+  var obj = {};
+  return _.reduce(desserts, function(obj, item) {
+    if (obj[item.type] === undefined) {
+      obj[item.type] = 1;
+    } else {
+      obj[item.type]++;
+    }
+    return obj;
+  }, {});
 };
 
 // return an object with the proper count of all user messages
@@ -163,7 +179,9 @@ var dessertCategories = function (desserts) {
   }
 */
 var countMessagesPerUser = function(tweets) {
+  var userMessageCounts = {};
 
+  return userMessageCounts;
 };
 
 // given an array of movie data objects,return an array containing
